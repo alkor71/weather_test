@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8" />
+  <title>WeatherFrocast</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" />
+
+  <!-- Font Awesome for weather icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #b2fefa 0%, #0ed2f7 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+    }
+    .header-bar {
+      background: rgba(32,178,170,0.95);
+      color: white;
+      border-radius: 0 0 24px 24px;
+      padding: 30px 0 20px 0;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+    .search-form {
+      margin-bottom: 32px;
+    }
+    .input-group {
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .form-control {
+      border-radius: 10px 0 0 10px;
+      font-size: 18px;
+      height: 46px;
+    }
+    .input-group-btn .btn {
+      border-radius: 0 10px 10px 0;
+      font-size: 20px;
+      height: 46px;
+      background: #20b2aa;
+      color: #fff;
+      border: none;
+      transition: background 0.2s;
+    }
+    .input-group-btn .btn:hover {
+      background: #138d87;
+    }
+    .weather-card {
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+      background: #e0f7fa;
+      padding: 32px 36px 28px 36px;
+      margin-top: 10px;
+      margin-bottom: 40px;
+      text-align: left;
+    }
+    .weather-card h2 {
+      margin-bottom: 28px;
+      font-weight: 700;
+    }
+    .weather-info {
+      font-size: 1.3em;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .weather-info i {
+      font-size: 1.2em;
+      color: #20b2aa;
+      min-width: 28px;
+      text-align: center;
+    }
+    .error-message {
+      background: #ffeaea;
+      color: #d8000c;
+      border: 1px solid #f5c6cb;
+      border-radius: 10px;
+      padding: 14px 20px;
+      margin: 24px 0 0 0;
+      font-size: 1.15em;
+      display: inline-block;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 8px rgba(216,0,12,0.06);
+      min-width: 220px;
+      max-width: 100%;
+      font-weight: 500;
+    }
+    .error-message i {
+      color: #d8000c;
+      font-size: 1.4em;
+    }
+    @media (max-width: 767px) {
+      .weather-card {
+        padding: 18px 8px 18px 8px;
+      }
+      .header-bar {
+        padding: 18px 0 12px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid header-bar text-center">
+    <h1 style="font-weight: 700;">Прогноз погоды</h1>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <form method="post" class="col-md-6 col-md-offset-3 search-form">
+        {% csrf_token %}
+        <div class="input-group">
+          <input type="text" class="form-control" name="city" placeholder="Введите город" />
+          <div class="input-group-btn">
+            <button class="btn" type="submit">
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        {% if city.error %}
+         <div class="error-message">
+      <i class="fas fa-exclamation-triangle"></i>
+      {{ city.error }}
+    </div>
+        {% elif city %}
+        <div class="weather-card">
+          <h2>Прогноз на ближайшее время в городе {{city}}:</h2>
+          <div class="weather-info">
+            <i class="fas fa-thermometer-half"></i>
+            <b>Температура:</b> <span class="text-info">{{temp}} ℃</span>
+          </div>
+          <div class="weather-info">
+            <i class="fas fa-cloud-sun"></i>
+            <b>Погода:</b> <span class="text-info">{{weather}}</span>
+          </div>
+          <div class="weather-info">
+            <i class="fas fa-wind"></i>
+            <b>Ветер:</b> <span class="text-info">{{wind}} м/c</span>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
