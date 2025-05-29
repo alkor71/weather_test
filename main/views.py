@@ -4,8 +4,22 @@
 import requests
 from django.shortcuts import render
 from django.conf import settings
+from django.http import JsonResponse
+from .models import City
+from django.views import View
 
 key = settings.WEATHER_API_KEY
+
+
+class CityAutocomplete(View):
+    def get(self, request):
+        q = request.GET.get('term', '')
+        if q:
+            cities = City.objects.filter(name__istartswith=q).order_by('name')[:10]
+            results = list(cities.values_list('name', flat=True))
+        else:
+            results = []
+        return JsonResponse(results, safe=False)
 
 
 def find_city(city_name):

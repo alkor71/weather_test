@@ -16,6 +16,10 @@
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
   <style>
     body {
       background: linear-gradient(135deg, #b2fefa 0%, #0ed2f7 100%);
@@ -158,6 +162,16 @@
       </div>
     </div>
   </div>
+
+<script>
+    $(function() {
+      $("input[name='city']").autocomplete({
+        source: "{% url 'city-autocomplete' %}",
+        minLength: 2,
+        delay: 300
+      });
+    });
+  </script>
 </body>
 
 </html>
